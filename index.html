@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Train Time Table</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Train Time Table Assignment">
+    <meta name="keywords" content="Train, Time, Table, University, Toronto">
+    <meta name="author" content="Tyson Parkin">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <header class="container">
+        <div class="jumbotron" id="jumbotron">
+            <h1>Train Time Table</h1>
+        </div>
+    </header>
+
+
+    <article class="container">
+
+        <div class="container">
+            <h2>Current Train Schedule</h2>
+            <table class="table table-hover table-striped table-responsive" id="table">
+                <tr>
+                    <th>Train Name</th>
+                    <th>Destination</th>
+                    <th>Frequency (min)</th>
+                    <th>Next Arrival</th>
+                    <th>Minutes Away</th>
+                </tr>
+            </table>
+        </div>
+
+        <div class="container">
+            <h2>Add Train</h2>
+            <form class="form-group">
+                <label for="trainName">Name</label>
+                <br>
+                <input type="text" id="trainName">
+                <br>
+                <label for="destination">Destination</label>
+                <br>
+                <input type="text" id="destination">
+                <br>
+                <label for="firstTrain">First Train</label>
+                <br>
+                <input type="time" id="firstTrain">
+                <br>
+                <label for="frequency">Frequency (min)</label>
+                <br>
+                <input type="number" id="frequency">
+                <br><br>
+                <input type="submit" value="Submit" class="btn btn-primary" id="submit">
+            </form>
+        </div>
+
+    </article>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
+    <script src="assets/javascript/app.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+</body>
+
+</html>
