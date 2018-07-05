@@ -22,10 +22,10 @@ $(function() {
         dateAdded = "",
         currentDate = moment(),
         currentTime = moment().format("HH:mm"),
-        currentTimeMinutes = moment().format("mm"),
+        currentTimeMinutes = parseInt(moment().format("mm")),
         currentUnixTime = currentDate.unix(),
         currentUnixTimeUTC = moment.unix(currentTime).utc()._i,
-        nextArrival = "",
+        nextArrival,
         minutesAway = 0;
 
     //on click event for submit button to add train
@@ -61,9 +61,14 @@ $(function() {
     //update schedule with database data or return error
     database.ref().on("child_added", function (childSnapshot) {
 
-        //calculate next train time and minutes remaining ***does not work***
-        minutesAway = currentTimeMinutes % frequency;
+        //calculate minutes remaining using current time and frequency
+        var childFrequency = childSnapshot.val().frequency
+        console.log(childFrequency);
+        console.log(currentTimeMinutes);
+        minutesAway = childFrequency - (currentTimeMinutes % childFrequency);
         console.log(minutesAway);
+        
+        //calculate the next train time based on minutes away and current time
         nextArrival = currentTimeMinutes + minutesAway;
         console.log(nextArrival);
 
@@ -78,13 +83,13 @@ $(function() {
             $(`#${childSnapshot.val().trainName}`).text(childSnapshot.val().trainName);
             $(`#${childSnapshot.val().destination}`).text(childSnapshot.val().destination);
             $(`#${childSnapshot.val().frequency}`).text(childSnapshot.val().frequency);
-            $(`#${childSnapshot.val().nextArrival}`).text(childSnapshot.val().nextArrival);
-            $(`#${childSnapshot.val().minutesAway}`).text(childSnapshot.val().minutesAway);
+            $(`#${childSnapshot.val().nextArrival}`).text(nextArrival);
+            $(`#${childSnapshot.val().minutesAway}`).text(minutesAway);
             console.log(childSnapshot.val().trainName);
             console.log(childSnapshot.val().destination);
             console.log(childSnapshot.val().frequency);
-            console.log(childSnapshot.val().nextArrival);
-            console.log(childSnapshot.val().minutesAway);
+            console.log(nextArrival);
+            console.log(minutesAway);
         }, 1000);
 
         //alert that an error has occured if nothing is returned
