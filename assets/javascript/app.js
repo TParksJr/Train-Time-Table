@@ -23,6 +23,7 @@ $(function() {
         currentDate = moment(),
         currentTime = moment().format("HH:mm"),
         currentTimeMinutes = parseInt(moment().format("mm")),
+        currentTimeHours = parseInt(moment().format("HH")),
         currentUnixTime = currentDate.unix(),
         currentUnixTimeUTC = moment.unix(currentTime).utc()._i,
         nextArrival,
@@ -53,7 +54,9 @@ $(function() {
             firstTrain: firstTrain,
             frequency: frequency,
             dateAdded: firebase.database.ServerValue.TIMESTAMP,
-            currentTime: currentTime
+            currentTime: currentTime,
+            minutesAway: minutesAway,
+            nextArrival: nextArrival
         });
         console.log(dateAdded);
     });
@@ -63,14 +66,17 @@ $(function() {
 
         //calculate minutes remaining using current time and frequency
         var childFrequency = childSnapshot.val().frequency
-        console.log(childFrequency);
-        console.log(currentTimeMinutes);
         minutesAway = childFrequency - (currentTimeMinutes % childFrequency);
-        console.log(minutesAway);
-        
+
+        /*check if hours is above 12, if so remove 12 ***does not work***
+        if (currentTimeHours > 12) {
+            return currentTimeHours - 12;
+        } else {
+            return currentTimeHours;
+        };*/
+
         //calculate the next train time based on minutes away and current time
-        nextArrival = currentTimeMinutes + minutesAway;
-        console.log(nextArrival);
+        nextArrival = currentTimeHours + ":" + (currentTimeMinutes + minutesAway);
 
         //update table with new data
         $("#table").append("<tr><td id='" + childSnapshot.val().trainName + "'>" + childSnapshot.val().trainName + 
@@ -78,16 +84,14 @@ $(function() {
         "'>" + childSnapshot.val().frequency + "</td><td id='" + nextArrival + "'>" + nextArrival + "</td><td id='" + minutesAway + 
         "'>" + minutesAway + "</td></tr>");
         
-        //set timer to update info every second
+        //set timer to update info every second ***console.logs update but the table does not***
         window.setInterval(function startTimer() {
-            $(`#${childSnapshot.val().trainName}`).text(childSnapshot.val().trainName);
-            $(`#${childSnapshot.val().destination}`).text(childSnapshot.val().destination);
-            $(`#${childSnapshot.val().frequency}`).text(childSnapshot.val().frequency);
-            $(`#${childSnapshot.val().nextArrival}`).text(nextArrival);
-            $(`#${childSnapshot.val().minutesAway}`).text(minutesAway);
-            console.log(childSnapshot.val().trainName);
-            console.log(childSnapshot.val().destination);
-            console.log(childSnapshot.val().frequency);
+            currentTimeMinutes = parseInt(moment().format("mm"));
+            currentTimeHours = parseInt(moment().format("HH"));
+            minutesAway = childFrequency - (currentTimeMinutes % childFrequency);
+            nextArrival = currentTimeHours + ":" + (currentTimeMinutes + minutesAway);
+            $(`#${nextArrival}`).text(nextArrival);
+            $(`#${minutesAway}`).text(minutesAway);
             console.log(nextArrival);
             console.log(minutesAway);
         }, 1000);
