@@ -20,12 +20,9 @@ $(function() {
         firstTrain = "",
         frequency = 0,
         dateAdded = "",
-        currentDate = moment(),
         currentTime = moment().format("HH:mm"),
         currentTimeMinutes = parseInt(moment().format("mm")),
         currentTimeHours = parseInt(moment().format("HH")),
-        currentUnixTime = currentDate.unix(),
-        currentUnixTimeUTC = moment.unix(currentTime).utc()._i,
         nextArrival,
         minutesAway = 0;
 
@@ -40,12 +37,6 @@ $(function() {
         destination = $("#destination").val().trim(),
         firstTrain = $("#firstTrain").val().trim(),
         frequency = $("#frequency").val().trim();
-        
-        //console log form values to confirm
-        console.log(trainName);
-        console.log(destination);
-        console.log(firstTrain);
-        console.log(frequency);
 
         //push data as an object into Firebase database
         database.ref().push({
@@ -58,7 +49,6 @@ $(function() {
             minutesAway: minutesAway,
             nextArrival: nextArrival
         });
-        console.log(dateAdded);
     });
 
     //update schedule with database data or return error
@@ -107,7 +97,7 @@ $(function() {
                 currentTimeMinutes -= 60;
                 currentTimeHours += 1;
 
-                //calculate the next train time based on minutes away and current time with zero added to maintain format
+                //calculate the next train time based on minutes away and current time with zero added to maintain standard format
                 nextArrival = currentTimeHours + ":0" + (currentTimeMinutes + minutesAway);
             } else {
 
@@ -116,8 +106,6 @@ $(function() {
             };
             $("#nextArrival" + childSnapshot.val().trainName).text(nextArrival);
             $("#minutesAway" + childSnapshot.val().trainName).text(minutesAway);
-            console.log(nextArrival);
-            console.log(minutesAway);
         }, 60000);
 
         //alert that an error has occured if nothing is returned
