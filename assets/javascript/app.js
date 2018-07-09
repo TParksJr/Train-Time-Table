@@ -68,33 +68,57 @@ $(function() {
         var childFrequency = childSnapshot.val().frequency
         minutesAway = childFrequency - (currentTimeMinutes % childFrequency);
 
-        /*check if hours is above 12, if so remove 12 ***does not work***
+        //check if hours is above 12, if so remove 12 to convert to 12hr clock
         if (currentTimeHours > 12) {
-            return currentTimeHours - 12;
-        } else {
-            return currentTimeHours;
-        };*/
+            currentTimeHours -= 12;
+        };
 
-        //calculate the next train time based on minutes away and current time
-        nextArrival = currentTimeHours + ":" + (currentTimeMinutes + minutesAway);
+        //if minutes is above 59, subtract 60 min and add 1 hour
+        if ((currentTimeMinutes + minutesAway) > 59) {
+            currentTimeMinutes -= 60;
+            currentTimeHours += 1;
+            //calculate the next train time based on minutes away and current time with zero added to maintain format
+            nextArrival = currentTimeHours + ":0" + (currentTimeMinutes + minutesAway);
+        } else {
+            //calculate the next train time based on minutes away and current time
+            nextArrival = currentTimeHours + ":" + (currentTimeMinutes + minutesAway);
+        };
 
         //update table with new data
         $("#table").append("<tr><td id='" + childSnapshot.val().trainName + "'>" + childSnapshot.val().trainName + 
-        "</td><td id='" + childSnapshot.val().destination + "'>" + childSnapshot.val().destination + "</td><td id='" + childSnapshot.val().frequency +
-        "'>" + childSnapshot.val().frequency + "</td><td id='" + nextArrival + "'>" + nextArrival + "</td><td id='" + minutesAway + 
+        "</td><td id='destination" + childSnapshot.val().trainName + "'>" + childSnapshot.val().destination + "</td><td id='frequency" + childSnapshot.val().trainName +
+        "'>" + childSnapshot.val().frequency + "</td><td id='nextArrival" + childSnapshot.val().trainName + "'>" + nextArrival + "</td><td id='minutesAway" + childSnapshot.val().trainName + 
         "'>" + minutesAway + "</td></tr>");
         
-        //set timer to update info every second ***console.logs update but the table does not***
+        //set timer to update info once every every minute
         window.setInterval(function startTimer() {
             currentTimeMinutes = parseInt(moment().format("mm"));
             currentTimeHours = parseInt(moment().format("HH"));
             minutesAway = childFrequency - (currentTimeMinutes % childFrequency);
             nextArrival = currentTimeHours + ":" + (currentTimeMinutes + minutesAway);
-            $(`#${nextArrival}`).text(nextArrival);
-            $(`#${minutesAway}`).text(minutesAway);
+
+            //check if hours is above 12, if so remove 12 to convert to 12hr clock
+            if (currentTimeHours > 12) {
+                currentTimeHours -= 12;
+            };
+
+            //if minutes is above 59, subtract 60 min and add 1 hour
+            if ((currentTimeMinutes + minutesAway) > 59) {
+                currentTimeMinutes -= 60;
+                currentTimeHours += 1;
+
+                //calculate the next train time based on minutes away and current time with zero added to maintain format
+                nextArrival = currentTimeHours + ":0" + (currentTimeMinutes + minutesAway);
+            } else {
+
+                //calculate the next train time based on minutes away and current time
+                nextArrival = currentTimeHours + ":" + (currentTimeMinutes + minutesAway);
+            };
+            $("#nextArrival" + childSnapshot.val().trainName).text(nextArrival);
+            $("#minutesAway" + childSnapshot.val().trainName).text(minutesAway);
             console.log(nextArrival);
             console.log(minutesAway);
-        }, 1000);
+        }, 60000);
 
         //alert that an error has occured if nothing is returned
     }, function(errorObject) {
