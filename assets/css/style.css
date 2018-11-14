@@ -4,4 +4,22 @@ header {
 #jumbotron {
     background-color: rgb(12,173,167);
     color: white;
+    font-family: 'Allerta Stencil', sans-serif;
+    box-shadow: 5px 5px 5px #4b4b4b;
+}
+#addTrain {
+    float:left;
+    max-width: 183px;
+    box-shadow: 5px 5px 5px #4b4b4b;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 10px;
+}
+#schedule {
+    float:right;
+    max-width: 539px;
+    box-shadow: 5px 5px 5px #4b4b4b;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 10px;
 }
