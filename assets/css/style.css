@@ -1,6 +1,12 @@
 header {
     text-align: center;
 }
+body {
+    background-image: url("../images/circuit.png")
+}
+article {
+    max-width: 850px;
+}
 #jumbotron {
     background-color: rgb(12,173,167);
     color: white;
@@ -10,17 +16,24 @@ header {
 }
 #addTrain {
     float:left;
-    max-width: 183px;
     box-shadow: 5px 5px 5px #4b4b4b;
     border-radius: 5px;
     border: 1px solid black;
     padding: 10px;
+    margin: 5px;
+    background-color: white;
 }
 #schedule {
     float:right;
-    max-width: 539px;
     box-shadow: 5px 5px 5px #4b4b4b;
     border-radius: 5px;
     border: 1px solid black;
     padding: 10px;
+    margin: 5px;
+    background-color: white;
 }
+/* @media screen and (max-width:990px) {
+    article {
+       margin: 200px; 
+    }
+} */
