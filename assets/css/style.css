@@ -6,6 +6,7 @@ header {
     color: white;
     font-family: 'Allerta Stencil', sans-serif;
     box-shadow: 5px 5px 5px #4b4b4b;
+    margin-top: 10px;
 }
 #addTrain {
     float:left;
